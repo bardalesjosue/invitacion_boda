@@ -1,0 +1,89 @@
+/* Google Fonts Import */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=Lato:wght@300;400;700&family=Alex+Brush&family=Great+Vibes&family=Allura&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;500;600;700;800&display=swap');
+@import 'tailwindcss';
+
+@font-face {
+  font-family: 'Brittany Signature';
+  src: url('/fonts/BrittanySignature.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  --color-wedding-gold: #c9a227;
+  --color-wedding-gold-satin: #c5a059;
+  --color-wedding-cream: #f9f7f2;
+  --color-wedding-dark: #121212;
+  --color-wedding-dark-gray: #1e1e1e;
+  --color-wedding-burgundy: #4a2e2b;
+  --color-wedding-earth: #6b7a52;
+
+  --font-serif: 'Cormorant Garamond', serif;
+  --font-sans: 'Montserrat', 'Inter', sans-serif;
+  --font-script: 'Alex Brush', cursive;
+  --font-script-vibes: 'Great Vibes', cursive;
+  --font-allura: 'Allura', cursive;
+  --font-playfair: 'Playfair Display', serif;
+  --font-brittany: 'Brittany Signature', cursive;
+}
+
+/* Premium Global Styles & Glassmorphism Utilities */
+@layer utilities {
+  .glass-dark {
+    background: rgba(18, 18, 18, 0.6);
+    backdrop-filter: blur(12px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  }
+
+  .glass-light {
+    background: rgba(250, 246, 240, 0.65);
+    backdrop-filter: blur(12px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+  }
+
+  .text-gold-gradient {
+    background: linear-gradient(135deg, #faf6f0 0%, #d4af37 50%, #c5a059 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .watercolor-paper {
+    background-color: #faf9f6;
+    background-image:
+      radial-gradient(
+        circle at 50% 50%,
+        rgba(252, 251, 248, 0.3) 0%,
+        rgba(244, 239, 230, 0.7) 100%
+      ),
+      url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.035' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.04 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  }
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--color-wedding-cream);
+  color: var(--color-wedding-dark);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-wedding-dark);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-wedding-gold-satin);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-wedding-gold);
+}
