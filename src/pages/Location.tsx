@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import gsap from 'gsap'
+import { CountdownClock } from '@/components/countdown/CountdownClock'
 
 export const Location: React.FC = () => {
   const cardRef = useRef<HTMLDivElement>(null)
@@ -181,6 +182,17 @@ export const Location: React.FC = () => {
               </div>
             </div>
           </div>
+        </div>
+
+        {/* Countdown Clock */}
+        <div className="w-full flex flex-col items-center justify-center mt-[28px] select-none">
+          <div className="flex items-center gap-1.5 mb-3">
+            <span className="text-[#C8A14B] text-[11px]">♥</span>
+            <span className="font-serif text-[11px] tracking-[2px] text-[#8E6B23] uppercase font-bold">
+              Faltan para el gran día
+            </span>
+          </div>
+          <CountdownClock />
         </div>
 
         {/* Código de vestimenta */}

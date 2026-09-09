@@ -85,23 +85,17 @@ export const Gifts: React.FC = () => {
         {/* 3. Elegant Text Card */}
         <div className="w-full max-w-[420px] mt-[8px] px-1 flex flex-col gap-4">
           <div className="bg-[#FDFBF7] border border-[#E8DCC4] rounded-[20px] p-6 shadow-[0_6px_15px_rgba(0,0,0,0.03)] flex flex-col items-center justify-center relative">
-            <div className="text-[#394D3B]/40 mb-2.5 text-xl">🌿</div>
+            <div className="text-[#394D3B]/40 mb-3 text-xl">🌿</div>
 
-            <p className="font-serif text-[16px] font-semibold text-[#454545] leading-[1.5] text-center max-w-[360px] select-none italic mb-3">
-              "Agradecemos de corazón el cariño que deseas tener con nosotros."
+            <p className="font-serif text-[13.5px] font-semibold text-[#454545] leading-[1.8] tracking-[1px] text-center max-w-[340px] uppercase select-none">
+              Su presencia es el regalo más valioso y agradecemos su compañía en este día especial
+              para nosotros.
             </p>
 
-            <p className="font-serif text-[14px] font-medium text-[#555] leading-[1.6] text-center max-w-[360px] select-none mb-4">
-              Si deseas obsequiarnos algo, preferimos que sea en{' '}
-              <span className="font-bold text-[#394D3B]">efectivo</span>. Será de gran ayuda para
-              construir nuestro futuro juntos, y el monto queda enteramente a tu criterio: lo
-              importante para nosotros es celebrar este día junto a ti.
-            </p>
+            <div className="w-[60px] border-t border-[#E8DCC4] my-4"></div>
 
-            <div className="w-full border-t border-[#E8DCC4] my-3"></div>
-
-            <p className="font-serif text-[14px] font-semibold text-[#394D3B] leading-[1.5] text-center max-w-[360px] select-none">
-              ¡Nos hace muy felices compartir este momento contigo!
+            <p className="font-serif text-[13.5px] font-semibold text-[#394D3B] leading-[1.8] tracking-[1px] text-center max-w-[340px] uppercase select-none">
+              Si desean bendecirnos, agradecemos mucho que sea en efectivo.
             </p>
 
             <div className="text-[#394D3B]/40 mt-3 text-xl rotate-180">🌿</div>

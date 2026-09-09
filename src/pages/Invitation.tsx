@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef } from 'react'
 import { useLocation } from 'react-router-dom'
 import { useAppStore } from '@/store/useAppStore'
 import { FamilyService } from '@/services/familyService'
-import { CountdownClock } from '@/components/countdown/CountdownClock'
 import type { Family } from '@/types'
 import gsap from 'gsap'
 
@@ -62,7 +61,7 @@ export const Invitation: React.FC = () => {
         // letterboxing the card so the background image reaches every edge.
         const isMobile = window.innerWidth < 768
         const scaleX = containerWidth / 550
-        const scaleY = containerHeight / 800
+        const scaleY = containerHeight / 848
 
         setScale(isMobile ? Math.max(scaleX, scaleY) : Math.min(scaleX, scaleY))
       }
@@ -216,7 +215,7 @@ export const Invitation: React.FC = () => {
               className="relative transition-all duration-300 origin-center bg-wedding-cream rounded-2xl shadow-[0_25px_60px_rgba(0,0,0,0.5)] border border-wedding-gold/15"
               style={{
                 width: '550px',
-                height: '800px',
+                height: '848px',
                 transform: `scale(${scale})`,
                 backgroundImage: "url('/images/fondo.png')",
                 backgroundSize: 'cover',
@@ -251,7 +250,7 @@ export const Invitation: React.FC = () => {
                       Eric Bardales
                     </p>
                     <p className="font-serif text-[11px] font-bold text-[#2C3E2E] tracking-[0.3px] -mt-0.5">
-                      Miriam Erazo
+                      Mirian Erazo
                     </p>
                   </div>
                   <div className="h-[22px] w-[1px] bg-[#E8DCC4]"></div>
@@ -358,10 +357,12 @@ export const Invitation: React.FC = () => {
                 <div className="absolute top-[556px] left-0 right-0 text-center select-none">
                   {!loading && family && (
                     <div className="flex flex-col items-center">
-                      <div className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#394D3B]/5 border border-[#394D3B]/10">
-                        <span className="text-[8px]">🎫</span>
-                        <span className="font-sans text-[7.5px] tracking-wider text-[#394D3B] uppercase font-bold">
-                          {family.cantidadPermitida}{' '}
+                      <div className="inline-flex items-center gap-2.5 px-6 py-2.5 rounded-full bg-[#394D3B]/8 border border-[#394D3B]/20">
+                        <span className="text-[20px]">🎫</span>
+                        <span className="font-serif text-[20px] font-extrabold text-[#394D3B] leading-none">
+                          {family.cantidadPermitida}
+                        </span>
+                        <span className="font-sans text-[12px] tracking-wider text-[#394D3B] uppercase font-bold leading-none">
                           {family.cantidadPermitida === 1 ? 'PASE INDIVIDUAL' : `PASES PERMITIDOS`}
                         </span>
                       </div>
@@ -370,7 +371,7 @@ export const Invitation: React.FC = () => {
                 </div>
 
                 {/* Date Card */}
-                <div className="absolute top-[590px] left-1/2 transform -translate-x-1/2 w-[90%] max-w-[420px] h-[92px] bg-[#FDFBF7] border border-[#E8DCC4] rounded-[18px] shadow-[0_4px_12px_rgba(57,77,59,0.04)] flex items-center justify-between px-6 select-none">
+                <div className="absolute top-[605px] left-1/2 transform -translate-x-1/2 w-[90%] max-w-[420px] h-[92px] bg-[#FDFBF7] border border-[#E8DCC4] rounded-[18px] shadow-[0_4px_12px_rgba(57,77,59,0.04)] flex items-center justify-between px-6 select-none">
                   {/* Left Column: VIERNES */}
                   <div className="flex-1 flex flex-col items-center justify-center text-center">
                     <span className="font-serif text-[14px] font-bold text-[#394D3B] uppercase tracking-wider">
@@ -408,19 +409,18 @@ export const Invitation: React.FC = () => {
                   </div>
                 </div>
 
-                {/* Countdown Clock */}
-                <div className="absolute top-[690px] left-0 right-0 flex flex-col items-center justify-start select-none">
-                  <div className="flex items-center gap-1.5 mb-2">
-                    <span className="text-[#C8A14B] text-[10px]">♥</span>
-                    <span className="font-serif text-[9.5px] tracking-[2px] text-[#8E6B23] uppercase font-bold">
-                      Faltan para el gran día
-                    </span>
-                  </div>
-                  <CountdownClock />
+                {/* Verse */}
+                <div className="absolute top-[705px] left-0 right-0 px-6 text-center select-none">
+                  <p className="font-serif italic text-[19px] font-semibold text-[#394D3B] leading-[1.55] max-w-[410px] mx-auto">
+                    "Muchas aguas no podrán apagar el amor, ni los ríos lo anegarán."
+                  </p>
+                  <span className="block font-sans text-[11px] tracking-[2px] text-[#8E6B23] uppercase font-bold mt-3">
+                    Cantares 8:7
+                  </span>
                 </div>
 
-                {/* Gold Botanical Divider below Countdown */}
-                <div className="absolute top-[752px] left-0 right-0 flex justify-center items-center select-none opacity-60">
+                {/* Gold Botanical Divider below Verse */}
+                <div className="absolute top-[800px] left-0 right-0 flex justify-center items-center select-none opacity-60">
                   <svg
                     className="w-[120px] h-[10px] text-[#C8A14B]"
                     viewBox="0 0 100 10"
