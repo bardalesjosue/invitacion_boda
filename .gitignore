@@ -24,3 +24,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Imagenes generadas (numeros de mesa y espejo de bienvenida)
+numeros-mesa/
+espejo-bienvenida/

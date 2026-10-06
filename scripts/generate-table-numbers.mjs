@@ -1,10 +1,12 @@
 // Genera las tarjetas de numero de mesa (1 al 10) reutilizando el estilo
 // visual de la pagina de invitacion (src/pages/Invitation.tsx): mismo fondo
 // floral, mismos colores dorado/verde y la misma tipografia de los novios.
-import { createCanvas, loadImage, GlobalFonts } from '@napi-rs/canvas'
+import { createCanvas, GlobalFonts } from '@napi-rs/canvas'
 import { mkdirSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { loadBackgroundWithoutPaper } from './lib/paper-background.mjs'
+import { drawScriptWord, measureScriptWord, drawTrackedText } from './lib/text-helpers.mjs'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const ROOT = path.resolve(__dirname, '..')
@@ -120,63 +122,13 @@ function drawHeartOutline(ctx, cx, cy, size) {
   ctx.restore()
 }
 
-// BrittanySignature.ttf no incluye glyphs con tilde (p.ej. "Josué" pierde el
-// acento en la é), asi que la dibujamos a mano con un pequeño trazo, igual de
-// fino que el resto de la firma.
-const ACUTE_MAP = { á: 'a', é: 'e', í: 'i', ó: 'o', ú: 'u', Á: 'A', É: 'E', Í: 'I', Ó: 'O', Ú: 'U' }
-
-function measureScriptWord(ctx, text) {
-  return ctx.measureText(text).width
-}
-
-function drawScriptWord(ctx, text, x, y) {
-  const fontSizeMatch = /([\d.]+)px/.exec(ctx.font)
-  const fontSize = fontSizeMatch ? parseFloat(fontSizeMatch[1]) : 80
-  ctx.save()
-  ctx.textAlign = 'left'
-  ctx.fillText(text, x, y)
-  let cursor = x
-  for (const ch of text) {
-    const w = ctx.measureText(ch).width
-    if (ACUTE_MAP[ch]) {
-      const ax = cursor + w * 0.6
-      const ay = y - fontSize * 0.72
-      ctx.strokeStyle = ctx.fillStyle
-      ctx.lineWidth = Math.max(2, fontSize * 0.045)
-      ctx.lineCap = 'round'
-      ctx.beginPath()
-      ctx.moveTo(ax - fontSize * 0.05, ay + fontSize * 0.045)
-      ctx.lineTo(ax + fontSize * 0.05, ay - fontSize * 0.045)
-      ctx.stroke()
-    }
-    cursor += w
-  }
-  ctx.restore()
-}
-
-function drawTrackedText(ctx, text, cx, y, tracking) {
-  // canvas no soporta letter-spacing nativo de forma consistente entre motores,
-  // asi que medimos y centramos manualmente respetando el tracking deseado.
-  const chars = text.split('')
-  const widths = chars.map((c) => ctx.measureText(c).width)
-  const totalWidth = widths.reduce((a, b) => a + b, 0) + tracking * (chars.length - 1)
-  let x = cx - totalWidth / 2
-  const align = ctx.textAlign
-  ctx.textAlign = 'left'
-  chars.forEach((c, i) => {
-    ctx.fillText(c, x, y)
-    x += widths[i] + tracking
-  })
-  ctx.textAlign = align
-}
-
-async function renderTableCard(number) {
+function renderTableCard(number, background) {
   const canvas = createCanvas(WIDTH, HEIGHT)
   const ctx = canvas.getContext('2d')
 
-  // Fondo floral (mismo asset que la invitacion)
-  const bg = await loadImage(BACKGROUND)
-  ctx.drawImage(bg, 0, 0, WIDTH, HEIGHT)
+  // Fondo floral sin el color/textura del papel: solo adornos sobre blanco,
+  // porque se imprime sobre cartulina lino crema (ver lib/paper-background.mjs)
+  ctx.drawImage(background, 0, 0)
 
   // Marco dorado sutil, igual que el borde de la tarjeta en Invitation.tsx
   ctx.strokeStyle = COLOR.gold
@@ -272,8 +224,10 @@ async function renderTableCard(number) {
 async function main() {
   mkdirSync(OUT_DIR, { recursive: true })
 
+  const background = await loadBackgroundWithoutPaper(BACKGROUND, WIDTH, HEIGHT)
+
   for (let n = 1; n <= TOTAL_TABLES; n++) {
-    const canvas = await renderTableCard(n)
+    const canvas = renderTableCard(n, background)
     const buffer = canvas.toBuffer('image/png')
     const filePath = path.join(OUT_DIR, `mesa-${String(n).padStart(2, '0')}.png`)
     writeFileSync(filePath, buffer)
