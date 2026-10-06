@@ -2,10 +2,34 @@ rules_version = '2';
 
 service cloud.firestore {
   match /databases/{database}/documents {
+
+    function isAdmin() {
+      return request.auth != null;
+    }
+
+    // Campos que el invitado puede modificar al confirmar su asistencia
+    // (ver FamilyService.confirmAttendance).
+    function isValidRsvp() {
+      let data = request.resource.data;
+      return request.resource.data.diff(resource.data).affectedKeys()
+               .hasOnly(['estado', 'confirmados', 'mensaje', 'telefono'])
+        && data.estado in ['Confirmado', 'Declinado']
+        && data.confirmados is int
+        && data.confirmados >= 0
+        && data.confirmados <= resource.data.cantidadPermitida
+        && (data.estado == 'Confirmado' || data.confirmados == 0)
+        && (!('mensaje' in data) || (data.mensaje is string && data.mensaje.size() <= 500))
+        && (!('telefono' in data) || (data.telefono is string && data.telefono.size() <= 30));
+    }
+
     match /invitaciones/{invitationId} {
-      allow read: if true;
-      allow update: if true;
-      allow create, delete: if request.auth != null;
+      // El ID del documento es el token del enlace personal (/i/:token):
+      // quien lo tiene puede leer solo esa invitación, pero no listar las demás.
+      allow get: if true;
+      allow list: if isAdmin();
+
+      allow create, delete: if isAdmin();
+      allow update: if isAdmin() || isValidRsvp();
     }
   }
 }
